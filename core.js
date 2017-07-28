@@ -69,7 +69,7 @@ function toggleEnergy() {
 }
 
 function fixStorageRounding() {
-	const precision = 100;
+	var precision = 100;
 	if(Math.round(meteorite * precision) / precision === meteoriteStorage) {
 		meteorite = meteoriteStorage;
 	}
@@ -617,6 +617,7 @@ function checkRedCost(){
 	Game.settings.turnRed(science, 100000, "unlockDysonCost");
 	Game.settings.turnRed(science, 300000, "unlockBatteriesT2Cost");
     Game.settings.turnRed(science, 3000000, "unlockBatteriesT3Cost");
+    Game.settings.turnRed(science, 30000000, "unlockBatteriesT4Cost");
 	Game.settings.turnRed(science, 500000, "unlockDysonSphereCost");
     Game.settings.turnRed(science, 9500000, "unlockPSUCost");
 	Game.settings.turnRed(science, 37000000, "unlockPSUT2Cost");
@@ -1170,7 +1171,29 @@ $('.collapseOuter').click(function(){
     }
 });
 
+//Copy To Clipboard
+var copyTextareaBtn = document.querySelector('#copyExport');
+
+copyTextareaBtn.addEventListener('click', function(event) {
+  var copyTextarea = document.querySelector('#impexpField');
+  copyTextarea.select();
+
+  try {
+    var successful = document.execCommand('copy');
+    var msg = successful ? 'successful' : 'unsuccessful';
+    console.log('Copying text command was ' + msg);
+  } catch (err) {
+    console.log('Oops, unable to copy');
+  }
+});
+
 //ToolTips
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip({container: 'body'}); 
+});
+
+//Change Company Name
+$('input[name="companyName"]').change(function(){
+	companyName = ($('input[name="companyName"]').val());
+	Game.settings.updateCompanyName();
 });
